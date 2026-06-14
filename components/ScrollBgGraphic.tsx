@@ -69,7 +69,6 @@ export function ScrollBgGraphic() {
 
         {/* single deep glow — only prominent at hero */}
         <motion.div
-          style={{ opacity: glowOp }}
           className="absolute left-1/2 top-[38%] h-[55vw] w-[55vw] max-h-[680px] max-w-[680px]
                      -translate-x-1/2 -translate-y-1/2 rounded-full blur-[120px]"
           style={{
