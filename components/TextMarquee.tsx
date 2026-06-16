@@ -23,7 +23,7 @@ export function TextMarquee() {
         <div className="animate-marquee flex w-max items-center gap-12">
           {[...items, ...items].map((t, i) => (
             <span key={`${t}-${i}`} className="flex items-center gap-12">
-              <span className="font-display text-5xl font-extrabold uppercase tracking-tight text-outline md:text-7xl">
+              <span className="font-display text-5xl font-extrabold uppercase tracking-tight text-[var(--text-2)] md:text-7xl">
                 {t}
               </span>
               <span className="h-2 w-2 rotate-45 bg-[var(--brand)] opacity-70" />

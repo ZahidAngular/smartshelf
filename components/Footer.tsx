@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 
 const navLinks = [
@@ -45,14 +46,8 @@ export function Footer() {
 
         {/* Brand */}
         <div>
-          <a href="#" className="inline-flex items-center gap-2.5 mb-5">
-            <div className="h-8 w-8 rounded-lg bg-[var(--brand)] grid place-items-center">
-              <svg width="18" height="18" viewBox="0 0 32 32" fill="none">
-                <rect x="4" y="6"  width="24" height="4" rx="2" fill="#000"/>
-                <rect x="4" y="14" width="24" height="4" rx="2" fill="#000" opacity="0.7"/>
-                <rect x="4" y="22" width="16" height="4" rx="2" fill="#000" opacity="0.45"/>
-              </svg>
-            </div>
+          <a href="#" className="inline-flex items-center gap-2 mb-5">
+            <Image src="/logo.png" alt="SmartShelf" width={32} height={32} className="h-8 w-8" />
             <span className="font-display text-base font-extrabold">
               <span className="text-[var(--text)]">Smart</span>
               <span className="text-[var(--brand)]">Shelf</span>

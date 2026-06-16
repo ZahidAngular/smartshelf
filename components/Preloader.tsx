@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 /* ── Context ─────────────────────────────────────────── */
 const IntroContext = createContext(false);
@@ -58,13 +59,9 @@ export function Preloader({ children }: { children: React.ReactNode }) {
                 initial={{ scale: 0.6, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.6, ease: [0.21, 0.65, 0.22, 1] }}
-                className="h-14 w-14 rounded-2xl bg-[#00C97A] grid place-items-center shadow-[0_0_60px_-8px_rgba(0,201,122,0.8)]"
+                className="grid h-16 w-16 place-items-center drop-shadow-[0_0_40px_rgba(0,201,122,0.6)]"
               >
-                <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-                  <rect x="4" y="6" width="24" height="4" rx="2" fill="#000"/>
-                  <rect x="4" y="14" width="24" height="4" rx="2" fill="#000" opacity="0.7"/>
-                  <rect x="4" y="22" width="16" height="4" rx="2" fill="#000" opacity="0.45"/>
-                </svg>
+                <Image src="/logo.png" alt="SmartShelf" width={64} height={64} priority className="h-16 w-16" />
               </motion.div>
 
               {/* Word mark */}

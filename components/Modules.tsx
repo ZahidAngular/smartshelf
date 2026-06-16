@@ -86,9 +86,7 @@ function ModCard({ m, delay }: { m: Mod; delay: number }) {
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.65, delay, ease: [0.21, 0.65, 0.22, 1] }}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d", transformPerspective: 1000 }}
-      className={`group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-2)] p-7 transition-[border-color,box-shadow] duration-300 hover:border-[var(--border-brand)] hover:shadow-[var(--shadow-lift)] ${
-        m.tall ? "row-span-2" : ""
-      }`}
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-2)] p-7 transition-[border-color,box-shadow] duration-300 hover:border-[var(--border-brand)] hover:shadow-[var(--shadow-lift)]"
     >
       {/* Moving glare */}
       <motion.div
@@ -109,14 +107,14 @@ function ModCard({ m, delay }: { m: Mod; delay: number }) {
       {/* Icon — lifted in 3D */}
       <div
         style={{ transform: "translateZ(50px)" }}
-        className={`mb-5 flex h-12 w-12 items-center justify-center rounded-xl ${
+        className={`mb-5 flex items-center justify-center rounded-xl ${m.featured ? "h-14 w-14" : "h-12 w-12"} ${
           m.featured
-            ? "bg-[var(--brand)] shadow-[0_6px_20px_-4px_rgba(0,201,122,0.5)]"
+            ? "bg-[var(--brand)] shadow-[0_8px_24px_-4px_rgba(0,201,122,0.55)]"
             : "border border-[var(--border)] bg-[var(--bg-3)]"
         }`}
       >
         <m.icon
-          className={`h-6 w-6 ${m.featured ? "text-black" : "text-[var(--brand)]"}`}
+          className={`${m.featured ? "h-7 w-7 text-black" : "h-6 w-6 text-[var(--brand)]"}`}
           strokeWidth={2.2}
         />
       </div>
@@ -130,18 +128,18 @@ function ModCard({ m, delay }: { m: Mod; delay: number }) {
       </div>
 
       {/* Content — lifted */}
-      <div style={{ transform: "translateZ(30px)" }}>
+      <div style={{ transform: "translateZ(30px)" }} className="flex flex-1 flex-col">
         {m.featured && (
           <span className="mb-2 block text-[0.6rem] font-bold uppercase tracking-[0.28em] text-[var(--brand)]">
             Featured Module
           </span>
         )}
-        <h3 className="font-display text-xl font-extrabold leading-tight tracking-tight text-[var(--text)]">
+        <h3 className={`font-display font-extrabold leading-tight tracking-tight text-[var(--text)] ${m.featured ? "text-2xl md:text-3xl" : "text-xl"}`}>
           {m.title}
         </h3>
-        <p className="mt-3 text-sm leading-relaxed text-[var(--text-2)]">{m.desc}</p>
+        <p className={`mt-3 text-sm leading-relaxed text-[var(--text-2)] ${m.featured ? "max-w-xl" : ""}`}>{m.desc}</p>
 
-        <ul className="mt-5 space-y-2.5">
+        <ul className={`mt-5 ${m.featured ? "grid gap-x-8 gap-y-2.5 sm:grid-cols-2 lg:grid-cols-3" : "space-y-2.5"}`}>
           {m.points.map((p) => (
             <li key={p} className="flex items-center gap-2.5 text-sm text-[var(--text-2)]">
               <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-[var(--brand)]" strokeWidth={2.5} />
@@ -150,8 +148,8 @@ function ModCard({ m, delay }: { m: Mod; delay: number }) {
           ))}
         </ul>
 
-        {/* Hover CTA */}
-        <div className="mt-6 flex items-center gap-1.5 text-xs font-bold text-[var(--text-2)] opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0.5">
+        {/* Hover CTA — pinned to bottom */}
+        <div className="mt-auto flex items-center gap-1.5 pt-6 text-xs font-bold text-[var(--brand)] opacity-60 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0.5">
           Learn more
           <ArrowRight className="h-3.5 w-3.5 text-[var(--brand)]" />
         </div>
@@ -199,20 +197,20 @@ export function Modules() {
           </motion.p>
         </div>
 
-        {/* Bento Grid */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {/* Row 1: Featured (2 cols) + Analytics (1 col, tall) */}
-          <div className="md:col-span-2 lg:col-span-1 lg:row-span-2">
+        {/* Balanced grid — featured spans 2 cols, equal-height rows */}
+        <div className="grid auto-rows-fr gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {/* Row 1: Featured (2 cols) + 1 */}
+          <div className="md:col-span-2">
             <ModCard m={modules[0]} delay={0} />
           </div>
-          <div className="lg:row-span-2">
-            <ModCard m={{ ...modules[1], tall: false }} delay={0.08} />
+          <div>
+            <ModCard m={modules[1]} delay={0.08} />
           </div>
+
+          {/* Row 2: 3 equal cards */}
           <div>
             <ModCard m={modules[2]} delay={0.16} />
           </div>
-
-          {/* Row 2 fills in */}
           <div>
             <ModCard m={modules[3]} delay={0.24} />
           </div>
@@ -226,17 +224,20 @@ export function Modules() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.65, delay: 0.4 }}
-          className="mt-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-[var(--border)] bg-[var(--bg-2)] p-6 sm:flex-row"
+          className="relative mt-5 flex flex-col items-center justify-between gap-5 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-2)] p-8 sm:flex-row"
         >
-          <div>
-            <p className="font-display text-lg font-bold text-[var(--text)]">
+          {/* Decorative glow */}
+          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(0,201,122,0.1)_0%,transparent_70%)]" />
+
+          <div className="relative">
+            <p className="font-display text-xl font-extrabold tracking-tight text-[var(--text)] md:text-2xl">
               Ready to see all modules in action?
             </p>
-            <p className="mt-1 text-sm text-[var(--text-2)]">
-              Book a live demo and we&apos;ll walk you through the full platform.
+            <p className="mt-2 text-sm text-[var(--text-2)]">
+              Book a live demo and we&apos;ll walk you through the full platform — tailored to your operation.
             </p>
           </div>
-          <a href="#contact" className="btn btn-primary shrink-0">
+          <a href="#contact" className="btn btn-primary relative shrink-0 px-7 py-3.5">
             Book a Demo <ArrowRight className="h-4 w-4" />
           </a>
         </motion.div>

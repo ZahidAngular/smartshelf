@@ -25,7 +25,7 @@ const stories: Story[] = [
     title: "Your Entire Product Library, One Hub",
     desc: "Manage SKUs, brand and outsourced product details, pricing and barcodes from one comprehensive hub.",
     points: ["Comprehensive product library", "Track freight estimates", "Monitor pricing margins", "Customise trade spending"],
-    img: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=1800&q=85&auto=format&fit=crop&crop=center",
+    img: "/images/shelf-01-fixed.jpg",
     stat: ["5,000+", "SKUs managed"],
     accent: "#00C97A",
   },
@@ -36,7 +36,7 @@ const stories: Story[] = [
     title: "Zero Manual Entry. Zero Errors.",
     desc: "Field reps raise perfect orders on the spot and push them straight into your systems — no re-keying, no mistakes.",
     points: ["Replace manual entry entirely", "Eliminate ordering errors", "Supplier article numbers auto-filled", "ERP & accounting integration"],
-    img: "https://images.unsplash.com/photo-1753354868590-81ed82047c4f?w=1800&q=85&auto=format&fit=crop&crop=center",
+    img: "/images/shelf-02-fixed.jpg",
     stat: ["98.6%", "Order accuracy"],
     accent: "#60A5FA",
   },
@@ -47,7 +47,7 @@ const stories: Story[] = [
     title: "Total Visibility Across Every Store",
     desc: "See your sales by individual store, banner group, territory and product — know exactly where focus pays off.",
     points: ["Individual store reports", "Grocery banner sales reports", "Territory distribution reports", "Promoted vs. baseline reports"],
-    img: "https://images.unsplash.com/photo-1515706886582-54c73c5eaf41?w=1800&q=85&auto=format&fit=crop&crop=center",
+    img: "/images/shelf-03-fixed.jpg",
     stat: ["+30%", "Sales uplift"],
     accent: "#F59E0B",
   },
@@ -58,7 +58,7 @@ const stories: Story[] = [
     title: "Photo-Verified Shelf Compliance",
     desc: "Reps capture facings, gaps, pricing and competitor moves in minutes — with photo proof automatically attached.",
     points: ["Gap flagged instantly", "Photo-verified shelf checks", "Guided audit flows", "Competitor move tracking"],
-    img: "https://images.unsplash.com/photo-1774978612809-b11695740f7a?w=1800&q=85&auto=format&fit=crop&crop=center",
+    img: "/images/shelf-04-fixed.jpg",
     stat: ["1,240+", "Audits per month"],
     accent: "#A78BFA",
   },
@@ -102,108 +102,77 @@ function StickyPanel({ s, index, total }: { s: Story; index: number; total: numb
         </motion.div>
 
         {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-transparent to-transparent" />
+        {/* Brand tint */}
+        <div className="absolute inset-0" style={{ background: `linear-gradient(120deg, ${s.accent}10 0%, transparent 45%)` }} />
+        {/* Vignette */}
+        <div className="absolute inset-0 shadow-[inset_0_0_160px_50px_rgba(0,0,0,0.35)]" />
 
         {/* Top-left number */}
         <div className="absolute top-8 right-8 font-display text-[8rem] font-extrabold leading-none text-white/[0.04] select-none md:text-[14rem]">
           {s.num}
         </div>
 
-        {/* Content — bottom left */}
+        {/* Content — structured glass panel, bottom left */}
         <div className="absolute inset-x-0 bottom-0 px-6 pb-12 md:px-12 lg:px-16 lg:pb-16">
-          <div className="mx-auto max-w-[1280px] grid lg:grid-cols-2 lg:gap-16 lg:items-end">
+          <div className="mx-auto max-w-[1280px]">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.21, 0.65, 0.22, 1] }}
+              className="relative max-w-2xl overflow-hidden rounded-2xl border border-white/[0.1] bg-black/40 p-7 backdrop-blur-xl md:p-9"
+            >
+              {/* Accent top line */}
+              <div className="absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, ${s.accent}, transparent)` }} />
 
-            {/* Left: title block */}
-            <div>
               {/* Eyebrow */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="mb-4 flex items-center gap-3"
-              >
+              <div className="mb-6 flex items-center gap-3">
                 <div
-                  className="flex h-8 w-8 items-center justify-center rounded-lg"
-                  style={{ backgroundColor: `${s.accent}20`, border: `1px solid ${s.accent}40` }}
+                  className="flex h-9 w-9 items-center justify-center rounded-lg"
+                  style={{ backgroundColor: `${s.accent}1f`, border: `1px solid ${s.accent}45` }}
                 >
-                  <s.icon className="h-4 w-4" style={{ color: s.accent }} strokeWidth={2.2} />
+                  <s.icon className="h-4.5 w-4.5" style={{ color: s.accent }} strokeWidth={2.2} />
                 </div>
-                <span
-                  className="text-[0.62rem] font-bold uppercase tracking-[0.28em]"
-                  style={{ color: s.accent }}
-                >
+                <span className="text-[0.62rem] font-bold uppercase tracking-[0.3em]" style={{ color: s.accent }}>
                   {s.eyebrow}
                 </span>
-              </motion.div>
+              </div>
 
-              {/* Stat */}
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.18 }}
-                className="mb-5"
-              >
-                <span
-                  className="font-display text-5xl font-extrabold leading-none md:text-7xl"
-                  style={{ color: s.accent }}
-                >
-                  {s.stat[0]}
-                </span>
-                <span className="ml-3 text-sm font-medium text-white/50">{s.stat[1]}</span>
-              </motion.div>
-
-              {/* Heading */}
-              <motion.h3
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.75, delay: 0.26 }}
-                className="font-display text-3xl font-extrabold leading-tight tracking-tight text-white md:text-4xl lg:text-5xl"
-              >
-                {s.title}
-              </motion.h3>
+              {/* Heading + stat row */}
+              <div className="flex flex-wrap items-end justify-between gap-4">
+                <h3 className="font-display text-3xl font-extrabold leading-[1.05] tracking-tight text-white md:text-4xl lg:text-[2.8rem]">
+                  {s.title}
+                </h3>
+                <div className="text-right">
+                  <div className="font-display text-4xl font-extrabold leading-none md:text-5xl" style={{ color: s.accent }}>
+                    {s.stat[0]}
+                  </div>
+                  <div className="mt-1 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/40">
+                    {s.stat[1]}
+                  </div>
+                </div>
+              </div>
 
               {/* Desc */}
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.65, delay: 0.34 }}
-                className="mt-4 max-w-md text-sm leading-relaxed text-white/60 md:text-base"
-              >
+              <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-[0.95rem]">
                 {s.desc}
-              </motion.p>
-            </div>
+              </p>
 
-            {/* Right: bullet points */}
-            <motion.ul
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="hidden lg:grid grid-cols-2 gap-3"
-            >
-              {s.points.map((p, i) => (
-                <motion.li
-                  key={p}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.38 + i * 0.07 }}
-                  className="flex items-start gap-2.5 rounded-xl border border-white/[0.08] bg-white/[0.05] p-3.5 backdrop-blur-sm"
-                >
-                  <CheckCircle2
-                    className="mt-0.5 h-4 w-4 shrink-0"
-                    style={{ color: s.accent }}
-                    strokeWidth={2.5}
-                  />
-                  <span className="text-[0.8rem] leading-snug text-white/80">{p}</span>
-                </motion.li>
-              ))}
-            </motion.ul>
+              {/* Divider */}
+              <div className="my-6 h-px w-full bg-white/[0.08]" />
+
+              {/* Bullet points — clean 2-col grid */}
+              <ul className="grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
+                {s.points.map((p) => (
+                  <li key={p} className="flex items-center gap-2.5 text-[0.82rem] leading-snug text-white/75">
+                    <CheckCircle2 className="h-4 w-4 shrink-0" style={{ color: s.accent }} strokeWidth={2.5} />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
           </div>
         </div>
 

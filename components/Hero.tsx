@@ -204,7 +204,8 @@ export function Hero() {
     <section
       ref={ref}
       id="hero"
-      className="relative flex h-screen w-full items-center overflow-hidden px-6 pt-[68px] md:px-12 lg:px-20"
+      className="relative flex h-screen w-full items-center px-6 pt-[68px] md:px-12 lg:px-20"
+      style={{ overflow: "clip" }}
     >
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-0 right-0 h-[600px] w-[600px] bg-[radial-gradient(ellipse_at_top_right,rgba(0,201,122,0.07)_0%,transparent_65%)]" />

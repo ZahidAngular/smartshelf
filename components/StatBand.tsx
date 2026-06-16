@@ -62,7 +62,7 @@ export function StatBand() {
               <p className="text-sm font-medium text-[var(--text-2)] md:text-base lg:text-lg md:text-right">
                 {s.label}
               </p>
-              <span className="shrink-0 text-[0.6rem] font-bold uppercase tracking-[0.25em] text-[var(--text-2)] opacity-40 md:w-28 md:text-right">
+              <span className="shrink-0 text-[0.6rem] font-bold uppercase tracking-[0.25em] text-[var(--text-2)] md:w-28 md:text-right">
                 {s.note}
               </span>
             </div>
