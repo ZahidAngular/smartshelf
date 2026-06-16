@@ -1,15 +1,14 @@
-﻿"use client";
+"use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useInView } from "framer-motion";
 import { Plus } from "lucide-react";
-import { Reveal, SectionHeading } from "./ui";
-import clsx from "clsx";
 
 const faqs = [
   {
-    q: "What is SmartShelf software, and how can it benefit my business?",
-    a: "SmartShelf is an all-in-one grocery sales operations platform for FMCG suppliers and distributors. It automates sales orders, store audits, purchase orders and in-store analytics â€” so your team spends less time on admin and more time growing distribution and sales.",
+    q: "What is SmartShelf and how can it benefit my business?",
+    a: "SmartShelf is an all-in-one grocery sales operations platform for FMCG suppliers and distributors. It automates sales orders, store audits, purchase orders and in-store analytics — so your team spends less time on admin and more time growing distribution and sales.",
   },
   {
     q: "Can SmartShelf integrate with my existing systems?",
@@ -21,76 +20,115 @@ const faqs = [
   },
   {
     q: "Is SmartShelf suitable for growing businesses?",
-    a: "Absolutely. The platform scales from a single territory to national coverage â€” add reps, stores and product lines anytime, and only pay for what you use.",
+    a: "Absolutely. The platform scales from a single territory to national coverage — add reps, stores and product lines anytime, and only pay for what you use.",
   },
 ];
 
 export function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section id="faq" className="relative px-3 py-14">
-      <div className="mx-auto max-w-[1200px]">
-        <SectionHeading
-          eyebrow="FAQ"
-          title={
-            <>
-              Frequently Asked <span className="text-gradient">Questions</span>
-            </>
-          }
-        />
+    <section id="faq" className="relative">
+      {/* Header bar */}
+      <div className="border-b border-[var(--border)] px-6 py-12 md:px-12 lg:px-16">
+        <div className="flex items-end justify-between gap-6">
+          <div>
+            <span className="tag">FAQ</span>
+            <h2 className="mt-5 font-display text-4xl font-extrabold tracking-tight text-[var(--text)] md:text-5xl">
+              Got Questions?
+            </h2>
+          </div>
+          <p className="hidden max-w-xs text-right text-sm text-[var(--text-2)] md:block">
+            Everything you need to know about SmartShelf.
+          </p>
+        </div>
+      </div>
 
-        <div className="space-y-4">
+      {/* Side-by-side FAQ layout */}
+      <div ref={ref} className="grid lg:grid-cols-[1fr_1fr] divide-x-0 lg:divide-x divide-[var(--border)]">
+
+        {/* Question list — left */}
+        <div className="divide-y divide-[var(--border)]">
           {faqs.map((f, i) => {
             const isOpen = open === i;
             return (
-              <Reveal key={f.q} delay={i * 0.06}>
-                <div
-                  className={clsx(
-                    "overflow-hidden rounded-2xl transition-all duration-300",
-                    isOpen ? "glass-deep ring-glow" : "glass"
-                  )}
-                >
-                  <button
-                    onClick={() => setOpen(isOpen ? null : i)}
-                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
-                  >
-                    <span className="font-display text-base font-semibold text-mist md:text-lg">
-                      {f.q}
-                    </span>
-                    <motion.span
-                      animate={{ rotate: isOpen ? 45 : 0 }}
-                      transition={{ duration: 0.3 }}
-                      className={clsx(
-                        "grid h-8 w-8 shrink-0 place-items-center rounded-full transition-colors",
-                        isOpen ? "bg-brand text-white" : "bg-fill text-brand-2"
-                      )}
-                    >
-                      <Plus className="h-4 w-4" strokeWidth={2.5} />
-                    </motion.span>
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.4, ease: [0.21, 0.65, 0.22, 1] }}
-                      >
-                        <p className="px-6 pb-6 text-sm leading-relaxed text-mist-2 md:text-base">
-                          {f.a}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+              <motion.button
+                key={f.q}
+                initial={{ opacity: 0, x: -20 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.55, delay: i * 0.07, ease: [0.21, 0.65, 0.22, 1] }}
+                onClick={() => setOpen(isOpen ? null : i)}
+                className={`flex w-full items-start justify-between gap-4 px-6 py-8 text-left transition-colors md:px-12 lg:px-12 ${
+                  isOpen ? "bg-[var(--bg-2)]" : "hover:bg-[var(--bg-2)]"
+                }`}
+              >
+                <div className="flex items-start gap-5">
+                  <span className="font-display text-sm font-bold tabular-nums text-[var(--text-2)] mt-0.5">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className={`font-display text-base font-bold leading-snug md:text-lg ${
+                    isOpen ? "text-[var(--brand)]" : "text-[var(--text)]"
+                  }`}>
+                    {f.q}
+                  </span>
                 </div>
-              </Reveal>
+                <motion.div
+                  animate={{ rotate: isOpen ? 45 : 0 }}
+                  transition={{ duration: 0.25 }}
+                  className={`mt-1 h-6 w-6 shrink-0 rounded-md grid place-items-center border transition-colors ${
+                    isOpen
+                      ? "border-[var(--brand)] bg-[rgba(0,201,122,0.1)] text-[var(--brand)]"
+                      : "border-[var(--border)] text-[var(--text-2)]"
+                  }`}
+                >
+                  <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
+                </motion.div>
+              </motion.button>
             );
           })}
+        </div>
+
+        {/* Answer panel — right (desktop) / accordion (mobile) */}
+        <div className="hidden lg:flex lg:flex-col lg:justify-center lg:px-12 lg:py-12">
+          <AnimatePresence mode="wait">
+            {open !== null && (
+              <motion.div
+                key={open}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.35, ease: [0.21, 0.65, 0.22, 1] }}
+              >
+                <span className="tag mb-6 inline-flex">Answer</span>
+                <p className="text-base leading-relaxed text-[var(--text-2)] md:text-lg">
+                  {faqs[open].a}
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Mobile accordion answers */}
+        <div className="lg:hidden divide-y divide-[var(--border)]">
+          {faqs.map((f, i) => (
+            <AnimatePresence key={f.q} initial={false}>
+              {open === i && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.35, ease: [0.21, 0.65, 0.22, 1] }}
+                  className="overflow-hidden"
+                >
+                  <p className="px-6 py-6 text-sm leading-relaxed text-[var(--text-2)]">{f.a}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          ))}
         </div>
       </div>
     </section>
   );
 }
-
-

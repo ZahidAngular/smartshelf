@@ -1,233 +1,316 @@
 @import "tailwindcss";
 
 /* ============================================================
-   SMARTSHELF DESIGN TOKENS — single source of truth
-   Brand palette:
-   SMART  → vibrant fresh green  #00C97A
-   SHELF  → deep forest green    #0A6E4A
+   SMARTSHELF — Sharp Industrial Design System v2
+   Brand: #00C97A (same logo green, new usage)
+   Style: Hard edges · No glass · Bold typography · 3D depth
    ============================================================ */
 
 :root {
-  /* brand (same in both themes — logo colors only) */
-  --brand: #0D9F6E;
-  --brand-2: #00C97A;
-  --brand-deep: #0A6E4A;
+  --brand:     #00C97A;
+  --brand-dk:  #009958;
+  --brand-xdk: #006B3E;
 
-  /* ── DARK THEME — Deep Forest ── */
-  --bg: #060F0C;
-  --bg-2: #0B1A12;
-  --bg-3: #0F2018;
-  --text: #E6FAF2;
-  --text-2: #7AB89A;
-  --border: rgba(0, 201, 122, 0.12);
-  --fill: rgba(0, 201, 122, 0.06);
+  /* ── DARK (default) ── */
+  --bg:      #0A0A0A;
+  --bg-2:    #111111;
+  --bg-3:    #181818;
+  --bg-4:    #222222;
 
-  --grad-1: #7AEDBA;
-  --grad-2: #00C97A;
-  --grad-3: #C8FAE2;
+  --text:    #F0F0F0;
+  --text-2:  #808080;
+  --text-3:  #3C3C3C;
 
-  --grid-line: rgba(0, 201, 122, 0.07);
-  --outline-stroke: rgba(100, 200, 150, 0.3);
-  --glow: rgba(0, 201, 122, 0.2);
+  --border:        rgba(255,255,255,0.07);
+  --border-up:     rgba(255,255,255,0.12);
+  --border-brand:  rgba(0,201,122,0.45);
+
+  --grid-line: rgba(255,255,255,0.026);
+
+  --shadow-card: 0 1px 0 0 rgba(255,255,255,0.04), 0 20px 48px -12px rgba(0,0,0,0.85);
+  --shadow-lift: 0 0 0 1px rgba(0,201,122,0.18), 0 28px 60px -16px rgba(0,0,0,0.9), 0 0 60px -24px rgba(0,201,122,0.12);
 }
 
-.light {
-  /* ── LIGHT THEME — Fresh Morning ── */
-  --bg: #F0FFF8;
-  --bg-2: #FFFFFF;
-  --bg-3: #D6F5E6;
-  --text: #0A2118;
-  --text-2: #2D6048;
-  --border: rgba(13, 159, 110, 0.15);
-  --fill: rgba(13, 159, 110, 0.06);
+/* ── LIGHT MODE ── */
+html.light {
+  --bg:      #F7F7F5;
+  --bg-2:    #FFFFFF;
+  --bg-3:    #EFEFED;
+  --bg-4:    #E4E4E2;
 
-  /* gradient: dark green stops — readable on light bg */
-  --grad-1: #0A6E4A;
-  --grad-2: #0D9F6E;
-  --grad-3: #00C97A;
+  --text:    #0A0A0A;
+  --text-2:  #6B6B6B;
+  --text-3:  #BBBBBB;
 
-  --grid-line: rgba(13, 159, 110, 0.09);
-  --outline-stroke: rgba(13, 159, 110, 0.35);
-  --glow: rgba(0, 201, 122, 0.18);
+  --border:        rgba(0,0,0,0.07);
+  --border-up:     rgba(0,0,0,0.13);
+  --border-brand:  rgba(0,153,88,0.4);
+
+  --grid-line: rgba(0,0,0,0.035);
+
+  --shadow-card: 0 1px 0 0 rgba(255,255,255,0.9), 0 4px 24px -6px rgba(0,0,0,0.08);
+  --shadow-lift: 0 0 0 1px rgba(0,153,88,0.15), 0 8px 32px -8px rgba(0,0,0,0.14);
 }
 
-/* light mode: brand-2 (#3fc0f0) is too light on white — use deep blue instead */
-.light .text-brand-2 {
-  color: var(--brand-deep);
-}
-
-/* map tokens to Tailwind utilities (theme-reactive) */
 @theme inline {
-  --color-ink: var(--bg);
-  --color-ink-2: var(--bg-2);
-  --color-ink-3: var(--bg-3);
-  --color-mist: var(--text);
-  --color-mist-2: var(--text-2);
-  --color-brand: var(--brand);
-  --color-brand-2: var(--brand-2);
-  --color-brand-deep: var(--brand-deep);
-  --color-line: var(--border);
-  --color-fill: var(--fill);
-  --font-display: var(--font-bricolage);
-  --font-body: var(--font-jakarta);
+  --color-bg:        var(--bg);
+  --color-bg-2:      var(--bg-2);
+  --color-bg-3:      var(--bg-3);
+  --color-bg-4:      var(--bg-4);
+  --color-mist:      var(--text);
+  --color-mist-2:    var(--text-2);
+  --color-mist-3:    var(--text-3);
+  --color-brand:     var(--brand);
+  --color-brand-dk:  var(--brand-dk);
+  --color-line:      var(--border);
+  --color-line-up:   var(--border-up);
+  --color-line-brand: var(--border-brand);
+  --font-display:    var(--font-bricolage);
+  --font-body:       var(--font-jakarta);
 }
 
 html {
   scroll-behavior: smooth;
-}
-
-/* hide default cursor — custom cursor handles everything */
-*, *::before, *::after {
-  cursor: none !important;
-}
-
-html {
   overflow-x: hidden;
 }
 
 body {
-  /* dark mode — deep forest gradient with fresh-green glow at top */
-  background:
-    radial-gradient(ellipse 90% 45% at 50% 0%, rgba(10, 80, 45, 0.55) 0%, transparent 68%),
-    linear-gradient(170deg, #040C08 0%, #060F0C 28%, #091509 58%, #050C07 100%) fixed;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 72px 72px;
   color: var(--text);
-  overflow-x: hidden;
   font-family: var(--font-jakarta), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  transition: background 0.6s ease, color 0.5s ease;
+  overflow-x: hidden;
+  transition: background-color 0.35s ease, color 0.35s ease;
 }
 
-/* light mode — fresh morning gradient with green glow at top */
-.light body {
-  background:
-    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(160, 240, 200, 0.55) 0%, transparent 65%),
-    linear-gradient(170deg, #E8FFF4 0%, #F0FFF8 30%, #FAFFFE 62%, #EDFFF5 100%) fixed;
-}
-
-h1, h2, h3, .font-display {
+h1, h2, h3, h4, .font-display {
   font-family: var(--font-bricolage), system-ui, sans-serif;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--brand-2) 40%, transparent);
-  color: var(--text);
+  background: rgba(0,201,122,0.22);
+  color: #fff;
 }
 
-/* ---------- glass surfaces ---------- */
-.glass {
-  background: linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(0,201,122,0.04) 100%);
-  border: 1px solid rgba(0, 201, 122, 0.11);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
-.light .glass {
-  background: linear-gradient(145deg, rgba(255,255,255,0.92) 0%, rgba(180,245,215,0.65) 100%);
-  border: 1px solid rgba(13, 159, 110, 0.16);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+/* ── Noise overlay ── */
+.noise::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.038;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-.glass-deep {
-  background: linear-gradient(160deg, rgba(8,22,14,0.80) 0%, rgba(4,10,6,0.94) 100%);
-  border: 1px solid rgba(0, 201, 122, 0.15);
-  backdrop-filter: blur(26px);
-  -webkit-backdrop-filter: blur(26px);
+/* ── Card surfaces — NO glassmorphism ── */
+.card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
 }
-.light .glass-deep {
-  background: linear-gradient(160deg, rgba(255,255,255,0.97) 0%, rgba(200,248,225,0.88) 100%);
-  border: 1px solid rgba(13, 159, 110, 0.2);
-  backdrop-filter: blur(26px);
-  -webkit-backdrop-filter: blur(26px);
+.card-up {
+  background: var(--bg-3);
+  border: 1px solid var(--border-up);
+  box-shadow: var(--shadow-card);
+}
+.card-accent {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--brand);
+  box-shadow: var(--shadow-card);
+}
+.card-lift {
+  background: var(--bg-3);
+  border: 1px solid var(--border-up);
+  box-shadow: var(--shadow-lift);
 }
 
-/* ---------- gradient text (logo blues) ---------- */
+/* ── Brand gradient text ── */
 .text-gradient {
-  background: linear-gradient(95deg, var(--grad-1) 0%, var(--grad-2) 50%, var(--grad-3) 100%);
+  background: linear-gradient(110deg, #7AEDBA 0%, #00C97A 50%, #C8FAE2 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* ---------- glow ring ---------- */
-@utility ring-glow {
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--brand-2) 22%, transparent),
-    0 20px 60px -20px color-mix(in srgb, var(--brand) 55%, transparent),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-/* ---------- outlined display text ---------- */
+/* ── Outlined display text ── */
 .text-outline {
   color: transparent;
-  -webkit-text-stroke: 1.5px var(--outline-stroke);
+  -webkit-text-stroke: 1.5px rgba(0,201,122,0.38);
 }
 
-/* ---------- grain texture ---------- */
-.grain::after {
+/* ── Tag / eyebrow label ── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(0,201,122,0.07);
+  border: 1px solid rgba(0,201,122,0.18);
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.6rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: var(--brand);
+  color: #000;
+  box-shadow: 0 8px 24px -8px rgba(0,201,122,0.45);
+}
+.btn-primary:hover {
+  background: #00e589;
+  box-shadow: 0 12px 32px -8px rgba(0,201,122,0.65);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-up);
+}
+.btn-ghost:hover {
+  border-color: var(--border-brand);
+  color: var(--brand);
+}
+
+/* ── 3D helpers ── */
+.perspective-1000 { perspective: 1000px; }
+.perspective-1400 { perspective: 1400px; }
+.preserve-3d      { transform-style: preserve-3d; }
+
+/* ── Corner bracket decoration ── */
+.bracket {
+  position: relative;
+}
+.bracket::before, .bracket::after {
   content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 70;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  position: absolute;
+  width: 14px;
+  height: 14px;
 }
-.light .grain::after {
-  opacity: 0.035;
+.bracket::before {
+  top: -1px; left: -1px;
+  border-top: 2px solid var(--brand);
+  border-left: 2px solid var(--brand);
 }
-
-/* ---------- dotted grid backdrop ---------- */
-.bg-grid {
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+.bracket::after {
+  bottom: -1px; right: -1px;
+  border-bottom: 2px solid var(--brand);
+  border-right: 2px solid var(--brand);
 }
 
-/* ---------- ambient glow blob ---------- */
-.glow-blob {
-  background: radial-gradient(circle, var(--glow), transparent 62%);
-}
-
-/* ---------- marquee ---------- */
-@keyframes marquee {
+/* ── Marquee ── */
+@keyframes marquee-left {
   from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  to   { transform: translateX(-50%); }
 }
 .animate-marquee {
-  animation: marquee 32s linear infinite;
+  animation: marquee-left 30s linear infinite;
 }
 .marquee-mask {
-  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
 }
 
-/* ---------- float for 3d hero chips ---------- */
+/* ── Float animation ── */
 @keyframes float-y {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-16px); }
+  50%       { transform: translateY(-10px); }
 }
-.animate-float {
-  animation: float-y 6s ease-in-out infinite;
+.float { animation: float-y 4.5s ease-in-out infinite; }
+.float-slow { animation: float-y 6.5s ease-in-out 0.6s infinite; }
+
+/* ── Scroll dot indicator ── */
+@keyframes scroll-dot {
+  0%, 100% { transform: translateY(0); opacity: 0.8; }
+  50%       { transform: translateY(6px); opacity: 0.25; }
 }
-.animate-float-delay {
-  animation: float-y 7.5s ease-in-out 1.2s infinite;
+.scroll-dot { animation: scroll-dot 2s ease-in-out infinite; }
+
+/* ── Pulse ring ── */
+@keyframes pulse-ring {
+  0%   { transform: scale(0.88); opacity: 0.7; }
+  100% { transform: scale(1.6);  opacity: 0; }
+}
+.pulse-ring { animation: pulse-ring 2s ease-out infinite; }
+
+/* ── Loader bar ── */
+@keyframes loader-bar {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.loader-bar {
+  transform-origin: left;
+  animation: loader-bar 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-/* ---------- slow conic spin ---------- */
-@keyframes spin-slower {
+/* ── Blink cursor ── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.blink { animation: blink 0.9s step-end infinite; }
+
+/* ── Slow spin ── */
+@keyframes spin-slow {
   to { transform: rotate(360deg); }
 }
-.animate-spin-slower {
-  animation: spin-slower 18s linear infinite;
+.spin-slow  { animation: spin-slow 22s linear infinite; }
+.spin-slow-r { animation: spin-slow 28s linear infinite reverse; }
+
+/* ── Product UI surface ── */
+.ui-surface {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
 }
 
-/* ---------- 3d helpers ---------- */
-.perspective-1200 {
-  perspective: 1200px;
+/* ── Section divider ── */
+.section-label {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--brand);
 }
-.preserve-3d {
-  transform-style: preserve-3d;
+
+/* ── Premium hover lift ── */
+.hover-lift {
+  transition: transform 0.25s cubic-bezier(0.21,0.65,0.22,1), box-shadow 0.25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
+}
+
+/* ── Number counter ── */
+.num-display {
+  font-family: var(--font-bricolage), system-ui;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
 }

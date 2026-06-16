@@ -1,37 +1,44 @@
-﻿"use client";
+"use client";
 
-import { Reveal } from "./ui";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const brands = [
-  "Angel Tech",
-  "HeartFelt",
-  "PureHarvest",
-  "Kiwi Fresh",
-  "GreenGrocer Co",
-  "Pantry Plus",
-  "Southern Foods",
-  "Alpine Dairy",
+  "Angel Tech", "HeartFelt", "PureHarvest", "Kiwi Fresh",
+  "GreenGrocer Co", "Pantry Plus", "Southern Foods", "Alpine Dairy",
+  "FreshChoice", "Metro Foods", "Pacific Goods", "OrganicNZ",
 ];
 
 export function Brands() {
-  return (
-    <section id="brands" className="relative px-3 py-12">
-      <Reveal>
-        <p className="text-center text-xs font-semibold uppercase tracking-[0.3em] text-mist-2">
-          Some of the esteemed brands we proudly serve
-        </p>
-      </Reveal>
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true });
 
-      <div className="marquee-mask mx-auto mt-10 max-w-[1200px] overflow-hidden">
-        <div className="animate-marquee flex w-max items-center gap-6">
+  return (
+    <section id="brands" className="relative border-y border-[var(--border)] py-14">
+      <div className="mx-auto max-w-[1280px] px-6 md:px-12 mb-8">
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.7 }}
+          className="flex items-center gap-6"
+        >
+          <div className="h-px flex-1 bg-[var(--border)]" />
+          <p className="text-[0.6rem] font-bold uppercase tracking-[0.38em] text-[var(--text-2)] shrink-0">
+            Trusted by leading FMCG brands across NZ &amp; AU
+          </p>
+          <div className="h-px flex-1 bg-[var(--border)]" />
+        </motion.div>
+      </div>
+
+      <div className="marquee-mask overflow-hidden">
+        <div className="animate-marquee flex w-max items-center">
           {[...brands, ...brands].map((b, i) => (
-            <div
-              key={`${b}-${i}`}
-              className="glass flex h-16 min-w-44 items-center justify-center rounded-2xl px-8 transition-colors hover:border-brand/30"
-            >
-              <span className="font-display text-base font-bold tracking-wide text-mist-2">
+            <div key={`${b}-${i}`} className="flex items-center gap-0">
+              <span className="whitespace-nowrap px-10 font-display text-sm font-bold tracking-wide text-[var(--text-2)] transition-colors duration-200 hover:text-[var(--text)]">
                 {b}
               </span>
+              <div className="h-4 w-px bg-[var(--border)]" />
             </div>
           ))}
         </div>
@@ -39,5 +46,3 @@ export function Brands() {
     </section>
   );
 }
-
-

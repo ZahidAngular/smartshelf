@@ -1,169 +1,124 @@
 "use client";
 
+import { createContext, useContext, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBasket, BarChart3, Boxes, PackageCheck } from "lucide-react";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
 
-/* Intro context — sections wait for the preloader before animating */
+/* ── Context ─────────────────────────────────────────── */
 const IntroContext = createContext(false);
 export const useIntroDone = () => useContext(IntroContext);
 
-const word = "SMARTSHELF";
-const boxes = [ShoppingBasket, Boxes, BarChart3, PackageCheck];
-const easeOut = [0.21, 0.65, 0.22, 1] as const;
-const easeSplit = [0.83, 0, 0.17, 1] as const;
+export const IntroProvider = Preloader;
 
-export function IntroProvider({ children }: { children: ReactNode }) {
-  const [count, setCount] = useState(0);
+export function Preloader({ children }: { children: React.ReactNode }) {
   const [done, setDone] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
     const start = performance.now();
-    const duration = 2200;
-
-    let raf: number;
-    const tick = (now: number) => {
-      const p = Math.min((now - start) / duration, 1);
-      setCount(Math.round((1 - Math.pow(1 - p, 3)) * 100));
-      if (p < 1) raf = requestAnimationFrame(tick);
-      else
+    const duration = 2000;
+    const raf = (now: number) => {
+      const p = Math.min(1, (now - start) / duration);
+      setProgress(Math.round(p * 100));
+      if (p < 1) requestAnimationFrame(raf);
+      else {
         setTimeout(() => {
           setDone(true);
-          document.body.style.overflow = "";
-        }, 450);
+          setTimeout(() => setShow(false), 800);
+        }, 300);
+      }
     };
-    raf = requestAnimationFrame(tick);
-    return () => {
-      cancelAnimationFrame(raf);
-      document.body.style.overflow = "";
-    };
+    requestAnimationFrame(raf);
   }, []);
 
   return (
     <IntroContext.Provider value={done}>
       <AnimatePresence>
-        {!done && (
-          <div key="preloader" className="fixed inset-0 z-[100]">
-            {/* top & bottom shutters — split open like a shelf */}
-            <motion.div
-              exit={{ y: "-100%" }}
-              transition={{ duration: 1, ease: easeSplit }}
-              className="absolute inset-x-0 top-0 h-1/2 bg-ink"
-            />
-            <motion.div
-              exit={{ y: "100%" }}
-              transition={{ duration: 1, ease: easeSplit }}
-              className="absolute inset-x-0 bottom-0 h-1/2 bg-ink"
-            />
-            {/* glowing seam revealed at the split */}
-            <motion.div
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: count >= 99 ? 1 : 0, opacity: count >= 99 ? 1 : 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: easeOut }}
-              className="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-brand-2 to-transparent shadow-[0_0_24px_2px_var(--brand-2)]"
+        {show && (
+          <motion.div
+            key="preloader"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-[#050505] overflow-hidden"
+          >
+            {/* Background grid */}
+            <div
+              className="absolute inset-0 opacity-30"
+              style={{
+                backgroundImage: "linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px)",
+                backgroundSize: "72px 72px",
+              }}
             />
 
-            {/* content layer */}
-            <motion.div
-              exit={{ opacity: 0, scale: 0.94 }}
-              transition={{ duration: 0.45, ease: easeOut }}
-              className="absolute inset-0 flex flex-col items-center justify-center"
-            >
-              {/* ambient glow */}
-              <div
-                aria-hidden
-                className="glow-blob absolute left-1/2 top-1/2 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
-              />
-
-              {/* product boxes drop onto the shelf */}
-              <div className="relative flex items-end gap-3 md:gap-4">
-                {boxes.map((Icon, i) => (
-                  <motion.span
-                    key={i}
-                    initial={{ y: -140, opacity: 0, rotate: i % 2 ? 10 : -10 }}
-                    animate={{ y: 0, opacity: 1, rotate: 0 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 260,
-                      damping: 17,
-                      delay: 0.25 + i * 0.18,
-                    }}
-                    className="grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br from-brand-2 to-brand-deep shadow-[0_14px_36px_-10px_var(--brand)] md:h-16 md:w-16 md:rounded-2xl"
-                  >
-                    <Icon className="h-5 w-5 text-white md:h-7 md:w-7" strokeWidth={2.2} />
-                  </motion.span>
-                ))}
-              </div>
-
-              {/* the shelf — slides in under the boxes */}
+            {/* Center content */}
+            <div className="relative flex flex-col items-center gap-8">
+              {/* Logo mark */}
               <motion.div
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 0.7, delay: 0.15, ease: easeOut }}
-                className="mt-3 h-1.5 w-64 origin-center rounded-full bg-gradient-to-r from-brand-deep via-brand to-brand-2 shadow-[0_8px_30px_-6px_var(--brand)] md:w-80"
-              />
-              {/* shelf reflection */}
-              <div className="h-10 w-56 bg-gradient-to-b from-brand/15 to-transparent [mask-image:linear-gradient(black,transparent)] md:w-72" />
+                initial={{ scale: 0.6, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.6, ease: [0.21, 0.65, 0.22, 1] }}
+                className="h-14 w-14 rounded-2xl bg-[#00C97A] grid place-items-center shadow-[0_0_60px_-8px_rgba(0,201,122,0.8)]"
+              >
+                <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                  <rect x="4" y="6" width="24" height="4" rx="2" fill="#000"/>
+                  <rect x="4" y="14" width="24" height="4" rx="2" fill="#000" opacity="0.7"/>
+                  <rect x="4" y="22" width="16" height="4" rx="2" fill="#000" opacity="0.45"/>
+                </svg>
+              </motion.div>
 
-              {/* logo letters */}
-              <div className="mt-2 flex overflow-hidden">
-                {word.split("").map((ch, i) => (
-                  <motion.span
-                    key={i}
-                    initial={{ y: "110%" }}
-                    animate={{ y: 0 }}
-                    transition={{
-                      duration: 0.7,
-                      delay: 0.9 + i * 0.045,
-                      ease: easeOut,
-                    }}
-                    className={`font-display text-3xl font-extrabold tracking-tight md:text-5xl ${
-                      i >= 5 ? "text-gradient" : "text-mist"
-                    }`}
-                  >
-                    {ch}
-                  </motion.span>
-                ))}
+              {/* Word mark */}
+              <div className="overflow-hidden">
+                <motion.div
+                  initial={{ y: "110%" }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.3, ease: [0.76, 0, 0.24, 1] }}
+                  className="font-display text-[2.2rem] font-extrabold tracking-[-0.04em] leading-none"
+                >
+                  <span className="text-white">Smart</span>
+                  <span className="text-[#00C97A]">Shelf</span>
+                </motion.div>
               </div>
 
+              {/* Tagline */}
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.4 }}
-                className="mt-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-mist-2"
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="text-[0.65rem] font-bold uppercase tracking-[0.4em] text-white/30"
               >
-                Stacking your shelf…
+                FMCG Operations Platform
               </motion.p>
+            </div>
 
-              {/* counter bottom-right */}
-              <motion.p
+            {/* Progress bar — bottom */}
+            <div className="absolute bottom-0 inset-x-0">
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="absolute bottom-8 right-8 font-display text-6xl font-extrabold tabular-nums text-mist/15 md:bottom-12 md:right-14 md:text-8xl"
+                transition={{ delay: 0.4 }}
+                className="absolute bottom-8 right-8 font-display text-[0.65rem] font-bold tabular-nums text-white/25"
               >
-                {count}
-                <span className="text-3xl text-brand-2/50 md:text-5xl">%</span>
-              </motion.p>
+                {String(progress).padStart(3, "0")}
+              </motion.div>
 
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="absolute bottom-10 left-8 text-[11px] font-semibold uppercase tracking-[0.3em] text-mist-2/70 md:bottom-14 md:left-14"
-              >
-                Smart FMCG Operations
-              </motion.p>
-            </motion.div>
-          </div>
+              <div className="h-px w-full bg-white/[0.06]">
+                <motion.div
+                  className="h-full bg-[#00C97A]"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
+
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="absolute bottom-8 left-8 text-[0.6rem] font-bold uppercase tracking-[0.3em] text-white/20"
+            >
+              NZ &amp; AU
+            </motion.span>
+          </motion.div>
         )}
       </AnimatePresence>
       {children}

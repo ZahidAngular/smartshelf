@@ -1,5 +1,5 @@
 import { IntroProvider } from "@/components/Preloader";
-import { ScrollBgGraphic } from "@/components/ScrollBgGraphic";
+import { ScrollProgress } from "@/components/ScrollProgress";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Brands } from "@/components/Brands";
@@ -17,7 +17,7 @@ import { Footer } from "@/components/Footer";
 export default function Home() {
   return (
     <IntroProvider>
-      <ScrollBgGraphic />
+      <ScrollProgress />
       <main className="relative">
         <Navbar />
         <Hero />

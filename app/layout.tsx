@@ -33,7 +33,7 @@ export default function RootLayout({
       className={`${bricolage.variable} ${jakarta.variable}`}
       suppressHydrationWarning
     >
-      <body className="grain cursor-none">
+      <body className="noise cursor-none">
         <CustomCursor />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
