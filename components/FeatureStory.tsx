@@ -122,7 +122,8 @@ function StickyPanel({ s, index, total }: { s: Story; index: number; total: numb
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.21, 0.65, 0.22, 1] }}
-              className="relative max-w-2xl overflow-hidden rounded-2xl border border-white/[0.1] bg-black/40 p-7 backdrop-blur-xl md:p-9"
+              className="relative max-w-2xl overflow-hidden rounded-2xl border border-white/25 bg-black/50 p-7 backdrop-blur-2xl md:p-9"
+              style={{ boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.12), 0 24px 60px -12px rgba(0,0,0,0.7)" }}
             >
               {/* Accent top line */}
               <div className="absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, ${s.accent}, transparent)` }} />
