@@ -58,7 +58,7 @@ const stories: Story[] = [
     title: "Photo-Verified Shelf Compliance",
     desc: "Reps capture facings, gaps, pricing and competitor moves in minutes — with photo proof automatically attached.",
     points: ["Gap flagged instantly", "Photo-verified shelf checks", "Guided audit flows", "Competitor move tracking"],
-    img: "/images/shelf-04-fixed.jpg",
+    img: "/images/shelf-04-final.jpg",
     stat: ["1,240+", "Audits per month"],
     accent: "#A78BFA",
   },
@@ -101,13 +101,13 @@ function StickyPanel({ s, index, total }: { s: Story; index: number; total: numb
           />
         </motion.div>
 
-        {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-transparent to-transparent" />
+        {/* Gradient overlays — lighter so image stays visible */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
         {/* Brand tint */}
         <div className="absolute inset-0" style={{ background: `linear-gradient(120deg, ${s.accent}10 0%, transparent 45%)` }} />
         {/* Vignette */}
-        <div className="absolute inset-0 shadow-[inset_0_0_160px_50px_rgba(0,0,0,0.35)]" />
+        <div className="absolute inset-0 shadow-[inset_0_0_160px_50px_rgba(0,0,0,0.25)]" />
 
         {/* Top-left number */}
         <div className="absolute top-8 right-8 font-display text-[8rem] font-extrabold leading-none text-white/[0.04] select-none md:text-[14rem]">
@@ -115,21 +115,24 @@ function StickyPanel({ s, index, total }: { s: Story; index: number; total: numb
         </div>
 
         {/* Content — structured glass panel, bottom left */}
-        <div className="absolute inset-x-0 bottom-0 px-6 pb-12 md:px-12 lg:px-16 lg:pb-16">
+        <div className="absolute inset-x-0 bottom-0 px-4 pb-8 sm:px-6 sm:pb-12 md:px-12 lg:px-16 lg:pb-16">
           <div className="mx-auto max-w-[1280px]">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.21, 0.65, 0.22, 1] }}
-              className="relative max-w-2xl overflow-hidden rounded-2xl border border-white/25 bg-black/50 p-7 backdrop-blur-2xl md:p-9"
-              style={{ boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.12), 0 24px 60px -12px rgba(0,0,0,0.7)" }}
+              className="relative max-w-2xl overflow-hidden rounded-2xl border border-white/20 p-5 backdrop-blur-2xl sm:p-7 md:p-9"
+              style={{
+                background: "linear-gradient(135deg, rgba(0,0,0,0.92) 0%, rgba(10,10,10,0.82) 60%, rgba(0,0,0,0.78) 100%)",
+                boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.12), 0 30px 70px -12px rgba(0,0,0,0.85)",
+              }}
             >
               {/* Accent top line */}
               <div className="absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, ${s.accent}, transparent)` }} />
 
               {/* Eyebrow */}
-              <div className="mb-6 flex items-center gap-3">
+              <div className="mb-4 flex items-center gap-3 sm:mb-6">
                 <div
                   className="flex h-9 w-9 items-center justify-center rounded-lg"
                   style={{ backgroundColor: `${s.accent}1f`, border: `1px solid ${s.accent}45` }}
@@ -162,7 +165,7 @@ function StickyPanel({ s, index, total }: { s: Story; index: number; total: numb
               </p>
 
               {/* Divider */}
-              <div className="my-6 h-px w-full bg-white/[0.08]" />
+              <div className="my-4 h-px w-full bg-white/[0.08] sm:my-6" />
 
               {/* Bullet points — clean 2-col grid */}
               <ul className="grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">

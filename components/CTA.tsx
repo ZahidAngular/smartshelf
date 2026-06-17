@@ -94,7 +94,7 @@ export function CTA() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.65, ease }}
-          className="mt-16 flex flex-wrap gap-0 divide-x divide-[rgba(0,0,0,0.15)] border-t border-[rgba(0,0,0,0.15)] pt-8"
+          className="mt-12 grid grid-cols-2 gap-y-6 border-t border-[rgba(0,0,0,0.15)] pt-8 sm:mt-16 sm:flex sm:flex-wrap sm:gap-0 sm:divide-x sm:divide-[rgba(0,0,0,0.15)]"
         >
           {[
             ["+30%",  "Average sales uplift"],
@@ -102,7 +102,7 @@ export function CTA() {
             ["98.6%", "Order accuracy"],
             ["$420",  "Per month, all-in"],
           ].map(([v, l]) => (
-            <div key={l} className="px-6 first:pl-0">
+            <div key={l} className="sm:px-6 sm:first:pl-0">
               <p className="font-display text-2xl font-extrabold text-black">{v}</p>
               <p className="mt-0.5 text-[0.6rem] font-bold uppercase tracking-wider text-[rgba(0,0,0,0.5)]">{l}</p>
             </div>

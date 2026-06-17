@@ -57,7 +57,7 @@ export function Pricing() {
 
           {/* Price */}
           <div className="mt-8 flex items-end gap-2">
-            <span className="font-display text-8xl font-extrabold leading-none tracking-tight text-[var(--text)]">
+            <span className="font-display text-7xl font-extrabold leading-none tracking-tight text-[var(--text)] sm:text-8xl">
               $420
             </span>
             <span className="mb-3 text-sm text-[var(--text-2)]">/ month</span>

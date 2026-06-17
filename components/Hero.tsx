@@ -204,7 +204,7 @@ export function Hero() {
     <section
       ref={ref}
       id="hero"
-      className="relative flex h-screen w-full items-center px-6 pt-[68px] md:px-12 lg:px-20"
+      className="relative flex min-h-screen w-full items-center px-5 pb-16 pt-28 md:px-12 lg:h-screen lg:px-20 lg:py-0 lg:pt-[68px]"
       style={{ overflow: "clip" }}
     >
       <div className="pointer-events-none absolute inset-0">
@@ -232,7 +232,7 @@ export function Hero() {
                 initial={{ y: "110%" }}
                 animate={introDone ? { y: 0 } : {}}
                 transition={{ duration: 0.9, delay: 0.18, ease }}
-                className="font-display text-[clamp(2.8rem,5.5vw,7rem)] font-bold leading-[1] tracking-[-0.04em] text-[var(--text-2)]"
+                className="font-display text-[clamp(2.3rem,7vw,7rem)] font-bold leading-[1] tracking-[-0.04em] text-[var(--text-2)]"
               >
                 Improve Your
               </motion.p>
@@ -242,8 +242,8 @@ export function Hero() {
                 initial={{ y: "110%" }}
                 animate={introDone ? { y: 0 } : {}}
                 transition={{ duration: 0.9, delay: 0.3, ease }}
-                className="font-display text-[clamp(4.5rem,10vw,13rem)] font-extrabold leading-[0.85] tracking-[-0.05em]"
-                style={{ WebkitTextStroke: "2.5px var(--brand)", color: "transparent" }}
+                className="font-display text-[clamp(3.25rem,13vw,13rem)] font-extrabold leading-[0.85] tracking-[-0.05em]"
+                style={{ WebkitTextStroke: "2px var(--brand)", color: "transparent" }}
               >
                 GROCERY
               </motion.p>
@@ -253,7 +253,7 @@ export function Hero() {
                 initial={{ y: "110%" }}
                 animate={introDone ? { y: 0 } : {}}
                 transition={{ duration: 0.9, delay: 0.42, ease }}
-                className="font-display text-[clamp(2.8rem,5.5vw,7rem)] font-extrabold leading-[1] tracking-[-0.04em] text-[var(--text)]"
+                className="font-display text-[clamp(2.3rem,7vw,7rem)] font-extrabold leading-[1] tracking-[-0.04em] text-[var(--text)]"
               >
                 Sales Results.
               </motion.p>
@@ -297,9 +297,9 @@ export function Hero() {
               ["1,240+", "Active Stores"],
               ["98.6%", "Order Accuracy"],
             ].map(([v, l]) => (
-              <div key={l} className="flex flex-col gap-1 px-5 first:pl-0 last:pr-0">
-                <span className="font-display text-lg font-extrabold leading-none text-[var(--brand)] md:text-xl">{v}</span>
-                <span className="text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[var(--text-2)]">{l}</span>
+              <div key={l} className="flex flex-col gap-1 px-3.5 first:pl-0 last:pr-0 sm:px-5">
+                <span className="font-display text-base font-extrabold leading-none text-[var(--brand)] sm:text-lg md:text-xl">{v}</span>
+                <span className="text-[0.52rem] font-bold uppercase tracking-[0.12em] text-[var(--text-2)] sm:text-[0.58rem] sm:tracking-[0.18em]">{l}</span>
               </div>
             ))}
           </motion.div>
